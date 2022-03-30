@@ -12,9 +12,9 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using SandBox;
 
-using HarmonyLib;
 using Helpers;
 using AdoptCompanions.Settings;
+using TaleWorlds.CampaignSystem.Conversation;
 
 namespace AdoptCompanions.CampaignBehaviors
 {
@@ -80,7 +80,6 @@ namespace AdoptCompanions.CampaignBehaviors
             Hero hero = Hero.OneToOneConversationHero;
             hero.SetName(new TextObject(s, null), new TextObject(s, null));
 
-            AccessTools.Property(typeof(TextObject), "Value");
             ACHelper.Print("Adpot Companion: Changed family member's name to " + s);
         }
 

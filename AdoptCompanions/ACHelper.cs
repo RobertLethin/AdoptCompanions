@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using System.Reflection.Emit;
+using System.Runtime.ExceptionServices;
+using System.Runtime.Serialization;
 
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
@@ -56,6 +59,52 @@ namespace AdoptCompanions
             }
 
             return 0;
+        }
+        public static PropertyInfo Property(Type type, string name)
+        {
+            if ((object)type == null)
+            {
+                if (Harmony.DEBUG)
+                {
+                    FileLog.Log("AccessTools.Property: type is null");
+                }
+
+                return null;
+            }
+
+            if (name == null)
+            {
+                if (Harmony.DEBUG)
+                {
+                    FileLog.Log("AccessTools.Property: name is null");
+                }
+
+                return null;
+            }
+
+            PropertyInfo propertyInfo = FindIncludingBaseTypes(type, (Type t) => t.GetProperty(name, all));
+            if ((object)propertyInfo == null && Harmony.DEBUG)
+            {
+                FileLog.Log($"AccessTools.Property: Could not find property for type {type} and name {name}");
+            }
+
+            return propertyInfo;
+        }
+
+        public static T FindIncludingBaseTypes<T>(Type type, Func<Type, T> func) where T : class
+        {
+            do
+            {
+                T val = func(type);
+                if (val != null)
+                {
+                    return val;
+                }
+
+                type = type.BaseType;
+            }
+            while ((object)type != null);
+            return null;
         }
     }
 }

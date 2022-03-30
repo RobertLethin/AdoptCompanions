@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+
 
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
@@ -12,9 +14,10 @@ using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using SandBox;
 
-using HarmonyLib;
+
 using Helpers;
 using AdoptCompanions.Settings;
+using TaleWorlds.CampaignSystem.Conversation;
 
 namespace AdoptCompanions.CampaignBehaviors
 {
@@ -62,7 +65,8 @@ namespace AdoptCompanions.CampaignBehaviors
 
             if (hero.Occupation != Occupation.Lord)
             {
-                AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                ACHelper.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                //AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
                 //ACHelper.Print("Occupation To Lord");
             }
 
@@ -92,7 +96,8 @@ namespace AdoptCompanions.CampaignBehaviors
 
             if (hero.Occupation != Occupation.Lord)
             {
-                AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                ACHelper.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                //AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
                 //ACHelper.Print("Occupation To Lord");
             }
 
