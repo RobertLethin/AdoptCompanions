@@ -37,15 +37,25 @@ namespace AdoptCompanions
             InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + exception.Message, Colors.Red));
         }
 
-        public static void OccupationToLord(CharacterObject character)
+        //Checks for family relationship between heros.
+        //>0 is related. 1 for it is a parent. 2 for it is a sibling. 3 for it is a child.
+        public static int isFamily(Hero familyHero, Hero checkHero)
         {
-            if (character.Occupation != Occupation.Lord)
+            if (familyHero.Father == checkHero
+                || familyHero.Mother == checkHero)
             {
-                AccessTools.Property(typeof(CharacterObject), "Occupation").SetValue(character, Occupation.Lord);
-                Print("Occupation To Lord");
-                AccessTools.Field(typeof(CharacterObject), "_originCharacter").SetValue(character, CharacterObject.PlayerCharacter);
-                AccessTools.Field(typeof(CharacterObject), "_originCharacterStringId").SetValue(character, CharacterObject.PlayerCharacter.StringId);
+                return 1;
             }
+            else if (familyHero.Siblings.Contains(checkHero))
+            {
+                return 2;
+            }
+            else if (familyHero.Children.Contains(checkHero))
+            {
+                return 3;
+            }
+
+            return 0;
         }
     }
 }

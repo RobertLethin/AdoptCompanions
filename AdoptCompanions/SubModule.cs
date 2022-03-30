@@ -37,6 +37,7 @@ namespace AdoptCompanions
                 CampaignGameStarter gameStarter = (CampaignGameStarter)gameStarterObject;
 
                 gameStarter.AddBehavior(new AdoptBehavior());
+                gameStarter.AddBehavior(new AdoptedFamilyBehavior());
             }
         }
     }
