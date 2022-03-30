@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Runtime.ExceptionServices;
 using System.Runtime.Serialization;
 
-using HarmonyLib;
+
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
@@ -64,29 +64,17 @@ namespace AdoptCompanions
         {
             if ((object)type == null)
             {
-                if (Harmony.DEBUG)
-                {
-                    FileLog.Log("AccessTools.Property: type is null");
-                }
 
                 return null;
             }
 
             if (name == null)
             {
-                if (Harmony.DEBUG)
-                {
-                    FileLog.Log("AccessTools.Property: name is null");
-                }
 
                 return null;
             }
 
-            PropertyInfo propertyInfo = FindIncludingBaseTypes(type, (Type t) => t.GetProperty(name, all));
-            if ((object)propertyInfo == null && Harmony.DEBUG)
-            {
-                FileLog.Log($"AccessTools.Property: Could not find property for type {type} and name {name}");
-            }
+            PropertyInfo propertyInfo = FindIncludingBaseTypes(type, (Type t) => t.GetProperty(name));
 
             return propertyInfo;
         }
