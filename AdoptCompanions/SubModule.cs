@@ -4,6 +4,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using AdoptCompanions.CampaignBehaviors;
+using AdoptCompanions.Settings;
 
 namespace AdoptCompanions
 {
@@ -33,6 +34,7 @@ namespace AdoptCompanions
 
             if( game.GameType is Campaign)
             {
+                ISettingsProvider settings = new ACSettings();
 
                 CampaignGameStarter gameStarter = (CampaignGameStarter)gameStarterObject;
 

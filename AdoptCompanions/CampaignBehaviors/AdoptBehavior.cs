@@ -33,17 +33,30 @@ namespace AdoptCompanions.CampaignBehaviors
             starter.AddDialogLine("character_adoption_response_child_AC", "adoption_companion_res_child_AC", "hero_main_options", "Nothing would make me happier, {?PLAYER.GENDER}Mother{?}Father{\\?}! [rf:happy][rb:very_positive]", null, new ConversationSentence.OnConsequenceDelegate(conversation_adopt_child_on_consequence), 100, null);
 
             starter.AddPlayerLine("adoption_discussion_cancel_AC", "adoption_companion_choice_AC", "hero_main_options", "Sorry, I still need to think about it more.", null, null, 50, null, null);
+
+            //Lords
+            starter.AddPlayerLine("adoption_discussion_AC", "hero_main_options", "adoption_companion_start_AC", "I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition), null, 70, null, null);
+            starter.AddDialogLine("character_adoption_start_res_AC", "adoption_companion_start_AC", "adoption_companion_choice_AC", "I have always thought of you as my chosen family and would love to be a part of your actaul family. Were you planning on adopting me as your child or sibling? [rf:happy][rb:very_positive]", null, null, 100, null);
+
+            starter.AddPlayerLine("adoption_discussion_sibling_AC", "adoption_companion_choice_AC", "adoption_companion_res_sibling_AC", "I see you as my equal and want you to be my {?CONVERSATION_CHARACTER.GENDER}sister{?}brother{\\?}!", null, null, 120, null, null);
+            starter.AddDialogLine("character_adoption_response_sibling_AC", "adoption_companion_res_sibling_AC", "hero_main_options", "Nothing would make me happier, {?PLAYER.GENDER}sister{?}brother{\\?}! [rf:happy][rb:very_positive]", null, new ConversationSentence.OnConsequenceDelegate(conversation_adopt_sibling_on_consequence), 100, null);
+
+            starter.AddPlayerLine("adoption_discussion_child_AC", "adoption_companion_choice_AC", "adoption_companion_res_child_AC", "I see you as my protege and want you to be my {?CONVERSATION_CHARACTER.GENDER}daughter{?}son{\\?}!", null, null, 100, null, null);
+            starter.AddDialogLine("character_adoption_response_child_AC", "adoption_companion_res_child_AC", "hero_main_options", "Nothing would make me happier, {?PLAYER.GENDER}Mother{?}Father{\\?}! [rf:happy][rb:very_positive]", null, new ConversationSentence.OnConsequenceDelegate(conversation_adopt_child_on_consequence), 100, null);
+
+            starter.AddPlayerLine("adoption_discussion_cancel_AC", "adoption_companion_choice_AC", "hero_main_options", "Sorry, I still need to think about it more.", null, null, 50, null, null);
+
         }
 
 
         private bool conversation_adopt_on_condition()
         {
-            ISettingsProvider settings = new ACSettings();
+            
             StringHelpers.SetCharacterProperties("CONVERSATION_CHARACTER", CharacterObject.OneToOneConversationCharacter);
 
             Hero hero = Hero.OneToOneConversationHero;
 
-            if (hero.IsPlayerCompanion)
+            if (hero.IsPlayerCompanion && settings.canAdoptCompanions)
             {
                 //ACHelper.Print("Adpot Companion: passes dialog check");
                 return true;
