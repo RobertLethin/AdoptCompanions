@@ -5,6 +5,8 @@ using TaleWorlds.Library;
 using TaleWorlds.ModuleManager;
 using AdoptCompanions.CampaignBehaviors;
 using AdoptCompanions.Settings;
+using Bannerlord.UIExtenderEx;
+using HarmonyLib;
 
 namespace AdoptCompanions
 {
@@ -12,6 +14,7 @@ namespace AdoptCompanions
     {
         protected override void OnSubModuleLoad()
         {
+            new Harmony("mod.bannerlord.adoptcompanions").PatchAll();
             base.OnSubModuleLoad();
             
 
@@ -34,7 +37,7 @@ namespace AdoptCompanions
 
             if( game.GameType is Campaign)
             {
-                ISettingsProvider settings = new ACSettings();
+                
 
                 CampaignGameStarter gameStarter = (CampaignGameStarter)gameStarterObject;
 

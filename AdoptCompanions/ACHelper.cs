@@ -18,8 +18,7 @@ namespace AdoptCompanions
         //This Class uses code from RoGreat and Marry Anyone mod
         public static void Print(string message)
         {
-            ISettingsProvider settings = new ACSettings();
-            if (settings.Debug)
+            if (MCM.Abstractions.Settings.Base.Global.GlobalSettings<ACSettings>.Instance.Debug)
             {
                 // Custom purple!
                 Color color = new(0.6f, 0.2f, 1f);
