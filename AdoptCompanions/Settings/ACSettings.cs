@@ -20,9 +20,9 @@ namespace AdoptCompanions.Settings
 
         public override string DisplayName => "Adopt Companions";
 
-        public override string FolderName => "Settings";
+        public override string FolderName => "AdpotCompanionsSettings";
 
-        public override string FormatType => "json2";
+        public override string FormatType => "json";
 
         //dev configs
         public bool Debug { get; set; } = true;

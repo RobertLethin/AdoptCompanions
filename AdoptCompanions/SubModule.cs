@@ -37,7 +37,6 @@ namespace AdoptCompanions
 
             if( game.GameType is Campaign)
             {
-                
 
                 CampaignGameStarter gameStarter = (CampaignGameStarter)gameStarterObject;
 

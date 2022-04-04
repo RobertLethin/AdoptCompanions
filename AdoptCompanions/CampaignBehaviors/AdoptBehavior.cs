@@ -51,7 +51,7 @@ namespace AdoptCompanions.CampaignBehaviors
                 || hero.Mother == Hero.MainHero.Mother
                 || (hero.Children != null && hero.Children.Contains(Hero.MainHero))
                 || (Hero.MainHero.Children != null && Hero.MainHero.Children.Contains(hero))
-                || (Hero.MainHero.Spouse != null && Hero.MainHero.Spouse == hero) )
+                || (Hero.MainHero.Spouse != null && Hero.MainHero.Spouse == hero))
             {
                 //ACHelper.Print("Already fam");
                 return false;
@@ -62,10 +62,10 @@ namespace AdoptCompanions.CampaignBehaviors
             if (!GlobalSettings<ACSettings>.Instance.canAdoptDifferentFactions && Hero.MainHero.MapFaction != hero.MapFaction)
             {
                 return false;
-            } 
+            }
 
             //check for at war
-            if(!GlobalSettings<ACSettings>.Instance.canAdoptAtWar && hero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
+            if (!GlobalSettings<ACSettings>.Instance.canAdoptAtWar && hero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
             {
                 return false;
             }
@@ -76,7 +76,7 @@ namespace AdoptCompanions.CampaignBehaviors
                 return false;
             }
 
-        //check for hero type settings
+            //check for hero type settings
             //Compainions 
             if (GlobalSettings<ACSettings>.Instance.canAdoptCompanions && hero.IsPlayerCompanion)
             {
@@ -84,10 +84,11 @@ namespace AdoptCompanions.CampaignBehaviors
                 return true;
             }
             //Kings/Queens/faction leaders
-            if (!GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader) 
-            { 
-                return false; 
-            } else if (GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader)
+            if (!GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader)
+            {
+                return false;
+            }
+            else if (GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader)
             {
                 return true;
             }
@@ -121,10 +122,10 @@ namespace AdoptCompanions.CampaignBehaviors
             if (GlobalSettings<ACSettings>.Instance.RelationshipMinimum <= hero.GetRelation(Hero.MainHero))
             {
                 adoptionFail = 0;
-                return true;   
+                return true;
             }
 
-            
+
             adoptionFail = 1;
             return false;
         }
@@ -140,7 +141,7 @@ namespace AdoptCompanions.CampaignBehaviors
             {
                 hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainFail));
                 return true;
-            } 
+            }
 
             return false;
         }
@@ -168,7 +169,7 @@ namespace AdoptCompanions.CampaignBehaviors
             hero.HasMet = true;
             hero.CompanionOf = null;
             //set same parents as player (which effectively makes them siblings)
-            hero.Father =  Hero.MainHero.Father;
+            hero.Father = Hero.MainHero.Father;
             hero.Mother = Hero.MainHero.Mother;
 
             //Increase relationship by 30 (old version hard set it to 100)
@@ -223,14 +224,15 @@ namespace AdoptCompanions.CampaignBehaviors
 
                 hero.SetPersonalRelation(spouse, (hero.GetRelation(spouse) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
                 spouse.SetPersonalRelation(hero, (spouse.GetRelation(hero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-            } else
+            }
+            else
             {
                 //above might not work properly for female heros or homosexual relationships so check all heros if they are spouse of player
                 foreach (Hero checkHero in Campaign.Current.AliveHeroes)
                 {
-                    if(checkHero.Spouse != null)
+                    if (checkHero.Spouse != null)
                     {
-                        if(checkHero.Spouse == Hero.MainHero)
+                        if (checkHero.Spouse == Hero.MainHero)
                         {
                             if (checkHero.IsFemale)
                             {
@@ -426,28 +428,28 @@ namespace AdoptCompanions.CampaignBehaviors
 
         public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
         {
-/*            foreach(Hero hero in Hero.AllAliveHeroes.ToList())
-            {
-                if (Hero.MainHero.Siblings.Contains(hero))
-                {
-                    if (hero.Occupation != Occupation.Lord)
-                    {
-                        AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                        //ACHelper.Print("Occupation To Lord");
-                    }
+            /*            foreach(Hero hero in Hero.AllAliveHeroes.ToList())
+                        {
+                            if (Hero.MainHero.Siblings.Contains(hero))
+                            {
+                                if (hero.Occupation != Occupation.Lord)
+                                {
+                                    AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                                    //ACHelper.Print("Occupation To Lord");
+                                }
 
-                } else if (Hero.MainHero.Children.Contains(hero))
-                {
-                    if (hero.Occupation != Occupation.Lord)
-                    {
-                        AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                        //ACHelper.Print("Occupation To Lord");
-                    }
-                }
-            }
-*/
+                            } else if (Hero.MainHero.Children.Contains(hero))
+                            {
+                                if (hero.Occupation != Occupation.Lord)
+                                {
+                                    AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                                    //ACHelper.Print("Occupation To Lord");
+                                }
+                            }
+                        }
+            */
 
-            AddDialogs(campaignGameStarter);    
+            AddDialogs(campaignGameStarter);
         }
 
         public override void RegisterEvents()
