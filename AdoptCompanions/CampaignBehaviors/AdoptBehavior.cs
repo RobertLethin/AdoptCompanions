@@ -45,13 +45,7 @@ namespace AdoptCompanions.CampaignBehaviors
             Hero hero = Hero.OneToOneConversationHero;
 
             //check if already family
-            if (hero.Father == Hero.MainHero
-                || hero.Mother == Hero.MainHero
-                || hero.Father == Hero.MainHero.Father
-                || hero.Mother == Hero.MainHero.Mother
-                || (hero.Children != null && hero.Children.Contains(Hero.MainHero))
-                || (Hero.MainHero.Children != null && Hero.MainHero.Children.Contains(hero))
-                || (Hero.MainHero.Spouse != null && Hero.MainHero.Spouse == hero))
+            if (ACHelper.isFamily(Hero.MainHero, hero) > 0)
             {
                 //ACHelper.Print("Already fam");
                 return false;

@@ -74,11 +74,11 @@ namespace AdoptCompanions.Settings
         public int AgreeChance { get; set; } = 100;
 */
 
-        //gold cost to adopt
+/*        //gold cost to adopt
         [SettingPropertyIntegerAttribute("Cost of Adoption (gold required to give to adoptee)", 0, 1000000, HintText = "This is the amount of gold you have to pay someone for them to agree to being adopted. default is 0 denars", Order = 12, RequireRestart = false)]
         [SettingPropertyGroup("Standard Adoption requirements", GroupOrder = 3)]
         public int GoldCostOfAdoption { get; set; } = 0;
-
+*/
 /*        //Can adopt if already have living parents
         [SettingPropertyBoolAttribute("Can already have living parents?", HintText = "If you are allowed to adopt someone that already has living parents. default is true.", Order = 13, RequireRestart = false)]
         [SettingPropertyGroup("Standard Adoption requirements")]

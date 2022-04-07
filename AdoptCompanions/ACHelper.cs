@@ -37,7 +37,7 @@ namespace AdoptCompanions
         }
 
         //Checks for family relationship between heros.
-        //>0 is related. 1 for it is a parent. 2 for it is a sibling. 3 for it is a child.
+        //>0 is related. 1 for it is a parent. 2 for it is a sibling. 3 for it is a child. 4 is for spouse
         public static int isFamily(Hero familyHero, Hero checkHero)
         {
             if (familyHero.Father == checkHero
@@ -52,6 +52,9 @@ namespace AdoptCompanions
             else if (familyHero.Children.Contains(checkHero))
             {
                 return 3;
+            } else if (familyHero.Spouse == checkHero)
+            {
+                return 4;
             }
 
             return 0;
