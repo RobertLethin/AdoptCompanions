@@ -15,6 +15,7 @@ using SandBox;
 using HarmonyLib;
 using Helpers;
 using AdoptCompanions.Settings;
+using MCM.Abstractions.Settings.Base.Global;
 
 namespace AdoptCompanions.CampaignBehaviors
 {
@@ -37,7 +38,7 @@ namespace AdoptCompanions.CampaignBehaviors
 
         private bool conversation_rename_on_condition()
         {
-            ISettingsProvider settings = new ACSettings();
+            
             StringHelpers.SetCharacterProperties("CONVERSATION_CHARACTER", CharacterObject.OneToOneConversationCharacter);
             
             Hero hero = Hero.OneToOneConversationHero;
@@ -57,7 +58,6 @@ namespace AdoptCompanions.CampaignBehaviors
         }
         private void conversation_rename_on_consequence()
         {
-            ISettingsProvider settings = new ACSettings();
             StringHelpers.SetCharacterProperties("CONVERSATION_CHARACTER", CharacterObject.OneToOneConversationCharacter);
 
             Hero hero = Hero.OneToOneConversationHero;
@@ -88,27 +88,6 @@ namespace AdoptCompanions.CampaignBehaviors
 
         public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
         {
-            /*
-            foreach(Hero hero in Hero.AllAliveHeroes.ToList())
-            {
-                if (Hero.MainHero.Siblings.Contains(hero))
-                {
-                    if (hero.Occupation != Occupation.Lord)
-                    {
-                        AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                        //ACHelper.Print("Occupation To Lord");
-                    }
-
-                } else if (Hero.MainHero.Children.Contains(hero))
-                {
-                    if (hero.Occupation != Occupation.Lord)
-                    {
-                        AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                        //ACHelper.Print("Occupation To Lord");
-                    }
-                }
-            }
-            */
 
             AddDialogs(campaignGameStarter);
         }
