@@ -15,6 +15,7 @@ using MCM.Abstractions.Settings.Base.Global;
 using AdoptCompanions.ViewModels;
 using TaleWorlds.Localization;
 using Helpers;
+using TaleWorlds.CampaignSystem.Actions;
 
 namespace AdoptCompanions
 {
@@ -95,12 +96,26 @@ namespace AdoptCompanions
             }
 
             //check for hero type settings
+            //Children
+            if (hero.IsChild)
+            {
+                if (GlobalSettings<ACSettings>.Instance.canAdoptChildren)
+                {
+                    return AdoptConstants.PASS_CHILDREN;
+                } else
+                {
+                    return AdoptConstants.FAIL_CHILDREN;
+                }
+                
+            }
+
             //Compainions 
             if (GlobalSettings<ACSettings>.Instance.canAdoptCompanions && hero.IsPlayerCompanion)
             {
                 //ACHelper.Print("Adpot Companion: passes dialog check");
                 return AdoptConstants.PASS_COMPANION;
             }
+
             //Kings/Queens/faction leaders
             if (!GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader)
             {
@@ -121,12 +136,6 @@ namespace AdoptCompanions
             if (GlobalSettings<ACSettings>.Instance.canAdoptNotables && hero.IsNotable)
             {
                 return AdoptConstants.PASS_NOTABLE;
-            }
-
-            //Children
-            if (GlobalSettings<ACSettings>.Instance.canAdoptChildren && hero.IsChild)
-            {
-                return AdoptConstants.PASS_CHILDREN;
             }
 
             //ACHelper.Print("Adpot Companion: fails dialog check");
@@ -168,12 +177,27 @@ namespace AdoptCompanions
             performHeroClanUpdates(ref hero);
             performHeroFamilyUpdates(ref hero);
 
-
+            //need to be lord to be family
             if (hero.Occupation != Occupation.Lord)
             {
-                AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                hero.SetNewOccupation(Occupation.Lord);
+                //AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
                 //ACHelper.Print("Occupation To Lord");
             }
+
+            //remove from being prisoner
+            if (hero.IsPrisoner)
+            {
+                releaseAdoptedPrisoner(hero);
+
+            }
+
+            if(hero.IsMercenary)
+            {
+                hero.IsMercenary = false;
+            }
+
+            hero.PartyBelongedTo.ActualClan = Hero.MainHero.Clan;
 
             hero.IsNoble = true;
             hero.Clan = Hero.MainHero.Clan;
@@ -204,9 +228,22 @@ namespace AdoptCompanions
 
             if (hero.Occupation != Occupation.Lord)
             {
-                AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
+                hero.SetNewOccupation(Occupation.Lord);
+                //AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
                 //ACHelper.Print("Occupation To Lord");
             }
+
+            if (hero.IsPrisoner)
+            {
+                releaseAdoptedPrisoner(hero);
+            }
+
+            if (hero.IsMercenary)
+            {
+                hero.IsMercenary = false;
+            }
+
+            hero.PartyBelongedTo.ActualClan = Hero.MainHero.Clan;
 
             hero.IsNoble = true;
             hero.Clan = Hero.MainHero.Clan;
@@ -280,6 +317,22 @@ namespace AdoptCompanions
 
             return 1;
         }
+
+        public static void releaseAdoptedPrisoner(Hero hero)
+        {
+            //EndCaptivityAction.ApplyByRemovedParty(hero);
+
+            hero.ChangeState(Hero.CharacterStates.Active);
+
+            hero.PartyBelongedToAsPrisoner.PrisonRoster.RemoveTroop(hero.CharacterObject);
+            AccessTools.Property(typeof(Hero), "PartyBelongedToAsPrisoner").SetValue(hero, null);
+
+            hero.StayingInSettlement = null;
+
+            AccessTools.Method(typeof(Hero), "SetPartyBelongedTo", new Type[] { typeof(MobileParty) }).Invoke(hero, new Object[] { Hero.MainHero.PartyBelongedTo });
+            Hero.MainHero.PartyBelongedTo.AddElementToMemberRoster(hero.CharacterObject, 1);
+        }
+
 
         //This will run logic for is hero is faction ruler or clan leader to chose new leaders
         private static void performHeroClanUpdates(ref Hero hero)
