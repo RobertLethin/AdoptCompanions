@@ -24,16 +24,16 @@ namespace AdoptCompanions.ViewModels
 
             if (typeStr.Equals(AdoptConstants.TYPE_STR_SIBLING))
             {
-                typeId = AdoptConstants.TYPE_ID_SIBLING;
+                this.typeId = AdoptConstants.TYPE_ID_SIBLING;
             } else if (typeStr.Equals(AdoptConstants.TYPE_STR_CHILD))
             {
-                typeId = AdoptConstants.TYPE_ID_CHILD;
+                this.typeId = AdoptConstants.TYPE_ID_CHILD;
             } else
             {
-                typeId = AdoptConstants.TYPE_ID_OTHER;
+                this.typeId = AdoptConstants.TYPE_ID_OTHER;
             }
 
-            isSelected = false;
+            this.isSelected = false;
         }
 
         public AdoptionTypeVM(int typeId)
@@ -42,27 +42,27 @@ namespace AdoptCompanions.ViewModels
 
             if (typeId == AdoptConstants.TYPE_ID_SIBLING)
             {
-                typeStr = AdoptConstants.TYPE_STR_SIBLING;
+                this.typeStr = AdoptConstants.TYPE_STR_SIBLING;
             }
             else if (typeId == AdoptConstants.TYPE_ID_CHILD)
             {
-                typeStr = AdoptConstants.TYPE_STR_CHILD;
+                this.typeStr = AdoptConstants.TYPE_STR_CHILD;
             }
             else
             {
-                typeStr = AdoptConstants.TYPE_STR_OTHER;
+                this.typeStr = AdoptConstants.TYPE_STR_OTHER;
             }
 
-            isSelected = false;
+            this.isSelected = false;
         }
 
         public AdoptionTypeVM(String typeStr, int typeId)
         {
             this.typeStr = typeStr;
 
-            this.typeId = typeId;  
+            this.typeId = typeId;
 
-            isSelected = false;
+            this.isSelected = false;
         }
 
         public AdoptionTypeVM(String typeStr, int typeId, bool isSelected)
