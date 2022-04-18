@@ -8,13 +8,18 @@ using AdoptCompanions.Settings;
 using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 
+
 namespace AdoptCompanions
 {
     public class SubModule : MBSubModuleBase
     {
+        public static readonly string HarmonyDomain = "mod.bannerlord.adoptcompanions";
+
         protected override void OnSubModuleLoad()
         {
-            new Harmony("mod.bannerlord.adoptcompanions").PatchAll();
+            //PatchManager.PatchAll(SubModule.HarmonyDomain);
+            //new Harmony(SubModule.HarmonyDomain).PatchAll();
+            new Harmony(((object)this).GetType().Namespace).PatchAll(((object)this).GetType().Assembly);
             base.OnSubModuleLoad();
             
 

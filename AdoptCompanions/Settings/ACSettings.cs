@@ -61,6 +61,9 @@ namespace AdoptCompanions.Settings
         [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
         public bool canAdoptNotables { get; set; } = false;
 
+        [SettingPropertyBoolAttribute("Can adopt Children?", HintText = "default is disabled.", Order = 7, RequireRestart = false)]
+        [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
+        public bool canAdoptChildren { get; set; } = false;
 
         //Settings for if it pass/fails
         //minimum relationship before able to adopt
