@@ -6,4 +6,4 @@ It adds the ability to adopt compainions into your family (as a sibling or as a 
 
 I reccomend installing it using Nexus Vortex.
 
-It requires Harmony because it is used to change some fields (like making you companion a lord/noble instead of a wonderer).
+Mod Page: https://www.nexusmods.com/mountandblade2bannerlord/mods/3880
