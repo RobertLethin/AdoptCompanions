@@ -10,14 +10,13 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 using AdoptCompanions.Settings;
-using AdoptCompanions.common;
 using MCM.Abstractions.Settings.Base.Global;
 using AdoptCompanions.ViewModels;
 using TaleWorlds.Localization;
 using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 
-namespace AdoptCompanions.common
+namespace AdoptCompanions.Common
 {
     internal static class ACHelper
     {

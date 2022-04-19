@@ -16,7 +16,7 @@ using HarmonyLib;
 using Helpers;
 using AdoptCompanions.Settings;
 using MCM.Abstractions.Settings.Base.Global;
-using AdoptCompanions.common;
+using AdoptCompanions.Common;
 using AdoptCompanions.ViewModels;
 
 namespace AdoptCompanions.CampaignBehaviors

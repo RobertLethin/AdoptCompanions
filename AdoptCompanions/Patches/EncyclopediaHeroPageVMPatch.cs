@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AdoptCompanions.common;
+using AdoptCompanions.Common;
 using AdoptCompanions.ViewModels;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
@@ -19,7 +19,7 @@ namespace AdoptCompanions.Patches {
         public static bool Prefix(EncyclopediaHeroPageVM __instance)
         {
             Hero hero = ((EncyclopediaPageVM)__instance).Obj as Hero;
-            if (ACHelper.canAdopt(hero) > 0)
+            //if (ACHelper.canAdopt(hero) > 0)
                 __instance.HeroCharacter = (HeroViewModel)new HeroViewModelAC(hero, (CharacterViewModel.StanceTypes)1);
             return true;
         }

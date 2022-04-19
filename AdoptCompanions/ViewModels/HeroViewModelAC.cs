@@ -1,4 +1,5 @@
-﻿using AdoptCompanions.common;
+﻿using AdoptCompanions.Actions;
+using AdoptCompanions.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace AdoptCompanions.ViewModels
         private readonly Hero hero;
         private readonly string btnTextChild;
         private readonly string btnTextSibling;
+        private readonly string btnTextAssassination;
 
         public HeroViewModelAC(Hero hero, CharacterViewModel.StanceTypes stance = 0)
           : base(stance)
@@ -26,6 +28,7 @@ namespace AdoptCompanions.ViewModels
             this.hero = hero;
             this.btnTextChild = ((object)new TextObject("{=Adopt_Companion_Adopt}Adopt as Child!", null)).ToString();
             this.btnTextSibling = ((object)new TextObject("{=Adopt_Companion_Adopt}Adopt as Sibling!", null)).ToString();
+            this.btnTextAssassination = ((object)new TextObject("{=Assassination}Assassinate", null)).ToString();
         }
 
         public void AdoptHero()
@@ -64,5 +67,24 @@ namespace AdoptCompanions.ViewModels
 
         [DataSourceProperty]
         public bool IsAlreadyFamily => ACHelper.isFamily(Hero.MainHero, this.hero) > 0 ? false : true;
+
+
+
+        public void Assassinate()
+        {
+            AssassinateAction.Assassinate(this.hero);
+            ((ViewModel)this).OnPropertyChanged("AssassinSent");
+        }
+
+        [DataSourceProperty]
+        public string AssassinateText => this.btnTextAssassination;
+
+
+        [DataSourceProperty]
+        public bool CanAssassinate => (ASHelper.CanAssassinate(this.hero) > 0) ? true : false;
+
+        [DataSourceProperty]
+        public bool AssassinSent => true;
+        //public bool AssassinSent => (ASHelper.AssassinSent(this.hero) > 0) ? false : true;
     }
 }
