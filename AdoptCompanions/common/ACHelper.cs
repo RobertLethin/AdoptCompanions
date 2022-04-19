@@ -17,7 +17,7 @@ using TaleWorlds.Localization;
 using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 
-namespace AdoptCompanions
+namespace AdoptCompanions.common
 {
     internal static class ACHelper
     {
@@ -186,23 +186,24 @@ namespace AdoptCompanions
             }
 
             //remove from being prisoner
-            if (hero.IsPrisoner)
-            {
-                releaseAdoptedPrisoner(hero);
-
-            }
-
             if(hero.IsMercenary)
             {
                 hero.IsMercenary = false;
             }
 
-            hero.PartyBelongedTo.ActualClan = Hero.MainHero.Clan;
+            if (hero.GovernorOf != null)
+            {
+                ChangeGovernorAction.Apply(hero.GovernorOf, null);
+            }
+
 
             hero.IsNoble = true;
-            hero.Clan = Hero.MainHero.Clan;
             hero.HasMet = true;
             hero.CompanionOf = null;
+
+            changeAdoptedHeroParty(hero);
+
+            hero.Clan = Hero.MainHero.Clan;
             //set same parents as player (which effectively makes them siblings)
             hero.Father = Hero.MainHero.Father;
             hero.Mother = Hero.MainHero.Mother;
@@ -211,6 +212,13 @@ namespace AdoptCompanions
             hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
 
             //AccessTools.Field(typeof(Agent), "_name").SetValue(agent, hero.Name);
+            
+            if (hero.IsPrisoner)
+            {
+                releaseAdoptedPrisoner(hero);
+            }
+
+           
 
             OnHeroAdopted(Hero.MainHero, hero, true);
 
@@ -233,17 +241,15 @@ namespace AdoptCompanions
                 //ACHelper.Print("Occupation To Lord");
             }
 
-            if (hero.IsPrisoner)
-            {
-                releaseAdoptedPrisoner(hero);
-            }
-
             if (hero.IsMercenary)
             {
                 hero.IsMercenary = false;
             }
 
-            hero.PartyBelongedTo.ActualClan = Hero.MainHero.Clan;
+            if (hero.GovernorOf != null)
+            {
+                ChangeGovernorAction.Apply(hero.GovernorOf, null);
+            }
 
             hero.IsNoble = true;
             hero.Clan = Hero.MainHero.Clan;
@@ -309,6 +315,12 @@ namespace AdoptCompanions
 
             hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
 
+            if (hero.IsPrisoner)
+            {
+                releaseAdoptedPrisoner(hero);
+            }
+
+            changeAdoptedHeroParty(hero);
 
             //AccessTools.Field(typeof(Agent), "_name").SetValue(agent, hero.Name);
             OnHeroAdopted(Hero.MainHero, hero, false);
@@ -318,41 +330,139 @@ namespace AdoptCompanions
             return 1;
         }
 
+        public static void changeAdoptedHeroParty(Hero hero)
+        {
+            try
+            {
+                if (hero.PartyBelongedTo != null)
+                {
+                    if (hero.PartyBelongedTo.ActualClan != null)
+                    {
+                        WarPartyComponent warPartyComponent;
+                        ;
+                        if (hero.PartyBelongedTo.PartyComponent != null
+                            && (warPartyComponent = (hero.PartyBelongedTo.PartyComponent as WarPartyComponent)) != null)
+                        {
+                            if (Hero.MainHero.Clan != null)
+                            {
+                                if(hero.PartyBelongedTo.Owner == hero)
+                                {
+                                    hero.PartyBelongedTo.ActualClan = Hero.MainHero.Clan;
+                                }
+                                else
+                                {
+                                    AccessTools.Property(typeof(Hero), "PartyBelongedTo").SetValue(hero, null);
+                                }
+
+                            }
+                            else
+                            {
+                                AccessTools.Property(typeof(Hero), "PartyBelongedTo").SetValue(hero, null);
+                            }
+                        }
+                    }
+                }
+                /*
+                PartyBase partyBase = (hero.PartyBelongedTo != null) ? hero.PartyBelongedTo.Party : hero.CurrentSettlement?.Party;
+                hero.CompanionOf = null;
+                if (partyBase != null)
+                {
+                    if (partyBase.LeaderHero != hero)
+                    {
+                        partyBase.MemberRoster.AddToCounts(hero.CharacterObject, -1);
+                    }
+                    else
+                    {
+                        partyBase.MemberRoster.AddToCounts(hero.CharacterObject, -1);
+                        partyBase.MobileParty.RemovePartyLeader();
+                        if (partyBase.MemberRoster.Count == 0)
+                        {
+                            DestroyPartyAction.Apply(null, partyBase.MobileParty);
+                        }
+                        else
+                        {
+                            DisbandPartyAction.ApplyDisband(partyBase.MobileParty);
+                        }
+                    }
+                }
+                */
+            } catch (Exception e) {
+                ACHelper.Print("ADOPT COMPANIONS: EXCEPTION trying to change adopted hero's party clan!");
+            }
+        }
+
         public static void releaseAdoptedPrisoner(Hero hero)
         {
             //EndCaptivityAction.ApplyByRemovedParty(hero);
+            try
+            {
+                hero.ChangeState(Hero.CharacterStates.Active);
 
-            hero.ChangeState(Hero.CharacterStates.Active);
+                hero.PartyBelongedToAsPrisoner.PrisonRoster.RemoveTroop(hero.CharacterObject);
+                AccessTools.Property(typeof(Hero), "PartyBelongedToAsPrisoner").SetValue(hero, null);
 
-            hero.PartyBelongedToAsPrisoner.PrisonRoster.RemoveTroop(hero.CharacterObject);
-            AccessTools.Property(typeof(Hero), "PartyBelongedToAsPrisoner").SetValue(hero, null);
+                hero.StayingInSettlement = null;
 
-            hero.StayingInSettlement = null;
-
-            AccessTools.Method(typeof(Hero), "SetPartyBelongedTo", new Type[] { typeof(MobileParty) }).Invoke(hero, new Object[] { Hero.MainHero.PartyBelongedTo });
-            Hero.MainHero.PartyBelongedTo.AddElementToMemberRoster(hero.CharacterObject, 1);
+                AccessTools.Method(typeof(Hero), "SetPartyBelongedTo", new Type[] { typeof(MobileParty) }).Invoke(hero, new Object[] { Hero.MainHero.PartyBelongedTo });
+                Hero.MainHero.PartyBelongedTo.AddElementToMemberRoster(hero.CharacterObject, 1);
+            } catch (Exception e)
+            {
+                ACHelper.Print("ADOPT COMPANIONS: EXCEPTION trying to remove adopted hero from prison!");
+            }
         }
 
 
         //This will run logic for is hero is faction ruler or clan leader to chose new leaders
         private static void performHeroClanUpdates(ref Hero hero)
         {
-            //if they are faction leader need to assign a new leader
-            if (hero.IsFactionLeader)
+            try
             {
-                //chose new ruling clan
-                Clan newRulingClan = new Clan();
-
-                foreach (Clan factionClan in hero.Clan.Kingdom.Clans)
+                if (hero.IsFactionLeader || (hero.Clan != null && hero.Clan.Leader == hero))
                 {
-                    if (hero.Clan != factionClan && factionClan.TotalStrength > newRulingClan.TotalStrength)
-                    {
-                        newRulingClan = factionClan;
-                    }
+                    TaleWorlds.CampaignSystem.Actions.ChangeClanLeaderAction.ApplyWithoutSelectedNewLeader(hero.Clan);
                 }
-                hero.Clan.Kingdom.RulingClan = newRulingClan;
+                
+                /*
+                //if they are faction leader need to assign a new leader
+                if (hero.IsFactionLeader)
+                {
+                    //chose new ruling clan
+                    Clan newRulingClan = new Clan();
+                    bool foundReplacementClan = false;
+                    foreach (Clan factionClan in hero.Clan.Kingdom.Clans)
+                    {
+                        if (hero.Clan != factionClan && factionClan.TotalStrength > newRulingClan.TotalStrength)
+                        {
+                            newRulingClan = factionClan;
+                            foundReplacementClan = true;
+                        }
+                    }
+
+                    //if new ruling clan replacement found
+                    if (foundReplacementClan)
+                    {
+                        hero.Clan.Kingdom.RulingClan = newRulingClan;
+                    }
+                    //no clan to replace hero's clan. Instead use hero's clan
+                    else
+                    {  
+                        findNewClanLeader(hero);
+                    }
+                } else
+                {
+                    findNewClanLeader(hero);
+                }
+                */
+
+            } catch (Exception e)
+            {
+                ACHelper.Print("ADOPT COMPANIONS: EXCEPTION trying to update faction leader clan!");
             }
 
+        }
+
+        public static void findNewClanLeader(Hero hero)
+        {
             //Chose new leader for hero clan
             if (hero.Clan != null)
             {
@@ -399,7 +509,6 @@ namespace AdoptCompanions
                 }
             }
         }
-
 
         //It will assign children and spouse to player clan if they need to be
         //it will also check for need to update spouse clan if spouse is a clan leader

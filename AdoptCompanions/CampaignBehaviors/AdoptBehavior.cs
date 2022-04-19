@@ -17,6 +17,7 @@ using Helpers;
 using AdoptCompanions.Settings;
 using MCM.Abstractions.Settings.Base.Global;
 using AdoptCompanions.common;
+using AdoptCompanions.ViewModels;
 
 namespace AdoptCompanions.CampaignBehaviors
 {
@@ -157,34 +158,8 @@ namespace AdoptCompanions.CampaignBehaviors
             //Agent agent = (Agent)Campaign.Current.ConversationManager.OneToOneConversationAgent;
             Hero hero = Hero.OneToOneConversationHero;
 
-            //perform logic for updating if clan leader or faction ruler
-            //and logic for reassigning family clan if needed (young children and spouse)
-            performHeroClanUpdates(ref hero);
-            performHeroFamilyUpdates(ref hero);
-
-
-            if (hero.Occupation != Occupation.Lord)
-            {
-                AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                //ACHelper.Print("Occupation To Lord");
-            }
-
-            hero.IsNoble = true;
-            hero.Clan = Hero.MainHero.Clan;
-            hero.HasMet = true;
-            hero.CompanionOf = null;
-            //set same parents as player (which effectively makes them siblings)
-            hero.Father = Hero.MainHero.Father;
-            hero.Mother = Hero.MainHero.Mother;
-
-            //Increase relationship by 30 (old version hard set it to 100)
-            hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-
-            //AccessTools.Field(typeof(Agent), "_name").SetValue(agent, hero.Name);
-
-            OnHeroAdopted(Hero.MainHero, hero, true);
-
-            ACHelper.Print("Successfully adopted " + hero.Name + " as your new sibling.");
+            AdoptionTypeVM adoptionType = new AdoptionTypeVM(AdoptConstants.TYPE_ID_SIBLING);
+            ACHelper.AdoptAction(hero, adoptionType);
         }
 
         private void conversation_adopt_child_on_consequence()
@@ -193,86 +168,8 @@ namespace AdoptCompanions.CampaignBehaviors
 
             Hero hero = Hero.OneToOneConversationHero;
 
-            //perform logic for updating if clan leader or faction ruler
-            //and logic for reassigning family clan if needed (young children and spouse)
-            performHeroClanUpdates(ref hero);
-            performHeroFamilyUpdates(ref hero);
-
-            if (hero.Occupation != Occupation.Lord)
-            {
-                AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                //ACHelper.Print("Occupation To Lord");
-            }
-
-            hero.IsNoble = true;
-            hero.Clan = Hero.MainHero.Clan;
-            hero.HasMet = true;
-            hero.CompanionOf = null;
-            hero.Father = null;
-            hero.Mother = null;
-
-            //First set spouse as parent
-            //Should be first in case homosexual marriage causes issues to ensure player always gets set as parent at minimum
-            //Only works for wives?
-            if (Hero.MainHero.Spouse != null)
-            {
-                Hero spouse = Hero.MainHero.Spouse;
-
-                if (spouse.IsFemale)
-                {
-                    hero.Mother = spouse;
-                }
-                else
-                {
-                    hero.Father = spouse;
-                }
-
-                hero.SetPersonalRelation(spouse, (hero.GetRelation(spouse) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                spouse.SetPersonalRelation(hero, (spouse.GetRelation(hero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-            }
-            else
-            {
-                //above might not work properly for female heros or homosexual relationships so check all heros if they are spouse of player
-                foreach (Hero checkHero in Campaign.Current.AliveHeroes)
-                {
-                    if (checkHero.Spouse != null)
-                    {
-                        if (checkHero.Spouse == Hero.MainHero)
-                        {
-                            if (checkHero.IsFemale)
-                            {
-                                hero.Mother = checkHero;
-                            }
-                            else
-                            {
-                                hero.Father = checkHero;
-                            }
-
-                            hero.SetPersonalRelation(checkHero, (hero.GetRelation(checkHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                            checkHero.SetPersonalRelation(hero, (checkHero.GetRelation(hero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                        }
-                    }
-                }
-            }
-
-            //Finally set player as parent
-            //May overwrite spouse in homosexual relationships or conflict with mods that change marriage
-            if (Hero.MainHero.IsFemale)
-            {
-                hero.Mother = Hero.MainHero;
-            }
-            else
-            {
-                hero.Father = Hero.MainHero;
-            }
-
-            hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-
-
-            //AccessTools.Field(typeof(Agent), "_name").SetValue(agent, hero.Name);
-            OnHeroAdopted(Hero.MainHero, hero, false);
-
-            ACHelper.Print("Successfully adopted " + hero.Name + " as your new child.");
+            AdoptionTypeVM adoptionType = new AdoptionTypeVM(AdoptConstants.TYPE_ID_CHILD);
+            ACHelper.AdoptAction(hero, adoptionType);
         }
 
         //This will run logic for is hero is faction ruler or clan leader to chose new leaders

@@ -16,6 +16,7 @@ using HarmonyLib;
 using Helpers;
 using AdoptCompanions.Settings;
 using MCM.Abstractions.Settings.Base.Global;
+using AdoptCompanions.common;
 
 namespace AdoptCompanions.CampaignBehaviors
 {

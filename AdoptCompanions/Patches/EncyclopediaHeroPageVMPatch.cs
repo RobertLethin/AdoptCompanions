@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdoptCompanions.common;
 using AdoptCompanions.ViewModels;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
