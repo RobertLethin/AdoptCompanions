@@ -102,6 +102,22 @@ namespace AdoptCompanions.Settings
         [SettingPropertyGroup("Effect of adoption", GroupOrder = 4)]
         public int RelationshipGainFail { get; set; } = -10;
 
-      
+        //Unadopt settings
+        [SettingPropertyBoolAttribute("Can disown children?", HintText = "default is enabled.", Order = 31, RequireRestart = false)]
+        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        public bool canUnAdoptChildren { get; set; } = true;
+
+        [SettingPropertyBoolAttribute("Can disown siblings?", HintText = "default is enabled.", Order = 32, RequireRestart = false)]
+        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        public bool canUnAdoptSiblings { get; set; } = true;
+
+        [SettingPropertyBoolAttribute("Can divorce spouse?", HintText = "default is disabled.", Order = 33, RequireRestart = false)]
+        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        public bool canUnAdoptSpouse { get; set; } = false;
+
+        [SettingPropertyBoolAttribute("Can disown parents?", HintText = "default is disabled.", Order = 34, RequireRestart = false)]
+        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        public bool canUnAdoptParents { get; set; } = false;
+
     }
 }

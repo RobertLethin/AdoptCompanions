@@ -38,6 +38,13 @@ namespace AdoptCompanions.common
         public const int FAIL_RELATIONSHIP = -1;
         public const int PASS_RELATIONSHIP = 1;
 
+        //family/relationship
+        public static int FAMILY_PARENT = 1;
+        public static int FAMILY_SPOUSE = 2;
+        public static int FAMILY_SIBLING = 3;
+        public static int FAMILY_CHILD = 4;
+        public static int NOT_FAMILY = -1;
+
         //adoption types
         public const int TYPE_ID_OTHER = 0;
         public const int TYPE_ID_SIBLING = 1;

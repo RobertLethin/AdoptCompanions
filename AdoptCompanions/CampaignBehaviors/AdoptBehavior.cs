@@ -18,6 +18,7 @@ using AdoptCompanions.Settings;
 using MCM.Abstractions.Settings.Base.Global;
 using AdoptCompanions.common;
 using AdoptCompanions.ViewModels;
+using AdoptCompanions.Actions;
 
 namespace AdoptCompanions.CampaignBehaviors
 {
@@ -25,7 +26,7 @@ namespace AdoptCompanions.CampaignBehaviors
     {
         protected void AddDialogs(CampaignGameStarter starter)
         {
-            //Companions
+            //Adopting
             starter.AddPlayerLine("adoption_discussion_AC", "hero_main_options", "adoption_companion_start_AC", "I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition), null, 70, null, null);
             starter.AddDialogLine("character_adoption_start_res_p_AC", "adoption_companion_start_AC", "adoption_companion_choice_AC", "I have always thought of you as my chosen family and would love to be a part of your actaul family. Were you planning on adopting me as your child or sibling? [rf:happy][rb:very_positive]", new ConversationSentence.OnConditionDelegate(conversation_relationship_pass_condition), null, 100, null);
             starter.AddDialogLine("character_adoption_start_res_f_AC", "adoption_companion_start_AC", "hero_main_options", "I'm sorry, but I don't like you enough to agree to that. [rf:angry][rb:negative]", new ConversationSentence.OnConditionDelegate(conversation_relationship_fail_condition_1), null, 100, null);
@@ -37,6 +38,10 @@ namespace AdoptCompanions.CampaignBehaviors
             starter.AddDialogLine("character_adoption_response_child_AC", "adoption_companion_res_child_AC", "hero_main_options", "Nothing would make me happier, {?PLAYER.GENDER}Mother{?}Father{\\?}! [rf:happy][rb:very_positive]", null, new ConversationSentence.OnConsequenceDelegate(conversation_adopt_child_on_consequence), 100, null);
 
             starter.AddPlayerLine("adoption_discussion_cancel_AC", "adoption_companion_choice_AC", "hero_main_options", "Sorry, I still need to think about it more.", null, null, 50, null, null);
+
+            //Unadopting
+            starter.AddPlayerLine("adoption_discussion_AC", "hero_main_options", "adoption_companion_start_AC", "I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition), null, 70, null, null);
+
         }
 
 
@@ -50,65 +55,6 @@ namespace AdoptCompanions.CampaignBehaviors
 
             if (canAdopt > 0 ) return true;
             else return false;
-/*
-            //check if already family
-            if (ACHelper.isFamily(Hero.MainHero, hero) > 0)
-            {
-                //ACHelper.Print("Already fam");
-                return false;
-            }
-
-            //check diplomatic settings
-            //Check for different factions
-            if (!GlobalSettings<ACSettings>.Instance.canAdoptDifferentFactions && Hero.MainHero.MapFaction != hero.MapFaction)
-            {
-                return false;
-            }
-
-            //check for at war
-            if (!GlobalSettings<ACSettings>.Instance.canAdoptAtWar && hero.MapFaction.IsAtWarWith(Hero.MainHero.MapFaction))
-            {
-                return false;
-            }
-
-            //check for at prisioners
-            if (!GlobalSettings<ACSettings>.Instance.canAdoptPrisoners && hero.IsPrisoner)
-            {
-                return false;
-            }
-
-            //check for hero type settings
-            //Compainions 
-            if (GlobalSettings<ACSettings>.Instance.canAdoptCompanions && hero.IsPlayerCompanion)
-            {
-                //ACHelper.Print("Adpot Companion: passes dialog check");
-                return true;
-            }
-            //Kings/Queens/faction leaders
-            if (!GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader)
-            {
-                return false;
-            }
-            else if (GlobalSettings<ACSettings>.Instance.canAdoptKings && hero.IsFactionLeader)
-            {
-                return true;
-            }
-
-            //Lords
-            if (GlobalSettings<ACSettings>.Instance.canAdoptLords && hero.Occupation == Occupation.Lord)
-            {
-                return true;
-            }
-
-            //Notables
-            if (GlobalSettings<ACSettings>.Instance.canAdoptNotables && hero.IsNotable)
-            {
-                return true;
-            }
-
-            //ACHelper.Print("Adpot Companion: fails dialog check");
-            return false;
-*/
         }
 
         private int _relCheck = 0;
@@ -122,18 +68,6 @@ namespace AdoptCompanions.CampaignBehaviors
 
             if (_relCheck == AdoptConstants.PASS_RELATIONSHIP) return true;
             else return false;
-/*
-            //check relationship
-            if (GlobalSettings<ACSettings>.Instance.RelationshipMinimum <= hero.GetRelation(Hero.MainHero))
-            {
-                adoptionFail = 0;
-                return true;
-            }
-
-
-            adoptionFail = 1;
-            return false;
-*/
         }
 
         //failed due to relationship
@@ -154,203 +88,22 @@ namespace AdoptCompanions.CampaignBehaviors
 
         private void conversation_adopt_sibling_on_consequence()
         {
-
-            //Agent agent = (Agent)Campaign.Current.ConversationManager.OneToOneConversationAgent;
             Hero hero = Hero.OneToOneConversationHero;
 
             AdoptionTypeVM adoptionType = new AdoptionTypeVM(AdoptConstants.TYPE_ID_SIBLING);
-            ACHelper.AdoptAction(hero, adoptionType);
+            AdoptActions.AdoptAction(hero, adoptionType);
         }
 
         private void conversation_adopt_child_on_consequence()
         {
-            //Agent agent = (Agent)Campaign.Current.ConversationManager.OneToOneConversationAgent;
-
             Hero hero = Hero.OneToOneConversationHero;
 
             AdoptionTypeVM adoptionType = new AdoptionTypeVM(AdoptConstants.TYPE_ID_CHILD);
-            ACHelper.AdoptAction(hero, adoptionType);
-        }
-
-        //This will run logic for is hero is faction ruler or clan leader to chose new leaders
-        private void performHeroClanUpdates(ref Hero hero)
-        {
-            //if they are faction leader need to assign a new leader
-            if (hero.IsFactionLeader)
-            {
-                //chose new ruling clan
-                Clan newRulingClan = new Clan();
-
-                foreach (Clan factionClan in hero.Clan.Kingdom.Clans)
-                {
-                    if (hero.Clan != factionClan && factionClan.TotalStrength > newRulingClan.TotalStrength)
-                    {
-                        newRulingClan = factionClan;
-                    }
-                }
-                hero.Clan.Kingdom.RulingClan = newRulingClan;
-            }
-
-            //Chose new leader for hero clan
-            if (hero.Clan != null)
-            {
-                if (hero.Clan.Leader == hero)
-                {
-                    //Can chose new leader
-                    MBReadOnlyList<Hero> clanMembers = hero.Clan.Lords;
-
-                    int livingMembers = 0;
-                    foreach (Hero member in clanMembers)
-                    {
-                        if (member.IsAlive)
-                        {
-                            livingMembers++;
-                        }
-                    }
-
-                    if (livingMembers > 1)
-                    {
-                        Hero newLeader = hero.Clan.Lords.First();
-
-                        foreach (Hero clanHero in hero.Clan.Lords)
-                        {
-                            if (hero.GetRelation(clanHero) > hero.GetRelation(newLeader))
-                            {
-                                newLeader = clanHero;
-                            }
-                        }
-                        hero.Clan.SetLeader(newLeader);
-                    }
-                    else
-                    {
-                        ACHelper.Print("Hero only living member in clan! Clan is eliminated!");
-                        //hero.Clan.IsEliminated = true; 
-                        //hero.Clan.SetLeader(null);
-                        Clan temp = hero.Clan;
-                        hero.Clan = Hero.MainHero.Clan;
-                        //AccessTools.Property(typeof(Clan), "_isEliminated").SetValue(hero.Clan, true);
-                        //AccessTools.Property(typeof(Clan), "IsEliminated").SetValue(temp, true);
-                        AccessTools.Method(typeof(Clan), "DeactivateClan").Invoke(temp, null);
-                        //hero.Clan = Hero.MainHero.Clan;
-                    }
-
-                }
-            }
-        }
-
-
-        //It will assign children and spouse to player clan if they need to be
-        //it will also check for need to update spouse clan if spouse is a clan leader
-        private void performHeroFamilyUpdates(ref Hero hero)
-        {
-
-            //move hero's children and spouse to player clan (siblings and parents will be lost)
-            foreach (Hero child in hero.Children)
-            {
-                if (child.Age < Campaign.Current.Models.AgeModel.HeroComesOfAge)
-                {
-                    if (child.Occupation != Occupation.Lord)
-                    {
-                        AccessTools.Property(typeof(Hero), "Occupation").SetValue(child, Occupation.Lord);
-                        //ACHelper.Print("Occupation To Lord");
-                    }
-                    child.IsNoble = true;
-                    child.Clan = Hero.MainHero.Clan;
-                    child.HasMet = true;
-                    child.CompanionOf = null;
-                    child.SetPersonalRelation(Hero.MainHero, (child.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                    ACHelper.Print("" + child.Name + ", child of " + hero.Name + ", added to player clan because child has not come of age!");
-                }
-            }
-
-            //Set spouse to player faction
-            if (hero.Spouse != null)
-            {
-                Hero spouse = hero.Spouse;
-
-                //In case spouse is a clan leader
-                performHeroClanUpdates(ref spouse);
-
-                if (spouse.Occupation != Occupation.Lord)
-                {
-                    AccessTools.Property(typeof(Hero), "Occupation").SetValue(spouse, Occupation.Lord);
-                    //ACHelper.Print("Occupation To Lord");
-                }
-
-                spouse.IsNoble = true;
-                spouse.Clan = Hero.MainHero.Clan;
-                spouse.HasMet = true;
-                spouse.CompanionOf = null;
-                spouse.SetPersonalRelation(Hero.MainHero, (spouse.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                ACHelper.Print("" + spouse.Name + ", spouse of " + hero.Name + ", added to player clan!");
-            }
-            else
-            {
-                //above might not work properly for female heros or homosexual relationships so check all heros if they are spouse of hero
-                foreach (Hero checkHero in hero.MapFaction.Lords)
-                {
-                    Hero temp = (Hero)checkHero;
-                    if (temp.Spouse != null)
-                    {
-                        if (temp.Spouse == hero)
-                        {
-                            performHeroClanUpdates(ref temp);
-                            if (temp.Occupation != Occupation.Lord)
-                            {
-                                AccessTools.Property(typeof(Hero), "Occupation").SetValue(temp, Occupation.Lord);
-                                //ACHelper.Print("Occupation To Lord");
-                            }
-                            temp.IsNoble = true;
-                            temp.Clan = Hero.MainHero.Clan;
-                            temp.HasMet = true;
-                            temp.CompanionOf = null;
-                            temp.SetPersonalRelation(Hero.MainHero, (temp.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                            ACHelper.Print("" + temp.Name + ", spouse of " + hero.Name + ", added to player clan!");
-                        }
-                    }
-                }
-            }
-        }
-
-        private void OnHeroAdopted(Hero adopter, Hero adoptedHero, Boolean isSibling)
-        {
-            TextObject textObject = new("{=adopted}{ADOPTER.LINK} adopted {ADOPTED_HERO.LINK}.", null);
-            StringHelpers.SetCharacterProperties("ADOPTER", adopter.CharacterObject, textObject);
-            StringHelpers.SetCharacterProperties("ADOPTED_HERO", adoptedHero.CharacterObject, textObject);
-            if (isSibling)
-            {
-                InformationManager.AddQuickInformation(textObject, 0, null, "event:/ui/notification/child_born");//what can I use instead??
-            }
-            else
-            {
-                InformationManager.AddQuickInformation(textObject, 0, null, "event:/ui/notification/child_born");
-            }
-
+            AdoptActions.AdoptAction(hero, adoptionType);
         }
 
         public void OnSessionLaunched(CampaignGameStarter campaignGameStarter)
         {
-            /*            foreach(Hero hero in Hero.AllAliveHeroes.ToList())
-                        {
-                            if (Hero.MainHero.Siblings.Contains(hero))
-                            {
-                                if (hero.Occupation != Occupation.Lord)
-                                {
-                                    AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                                    //ACHelper.Print("Occupation To Lord");
-                                }
-
-                            } else if (Hero.MainHero.Children.Contains(hero))
-                            {
-                                if (hero.Occupation != Occupation.Lord)
-                                {
-                                    AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                                    //ACHelper.Print("Occupation To Lord");
-                                }
-                            }
-                        }
-            */
-
             AddDialogs(campaignGameStarter);
         }
 
