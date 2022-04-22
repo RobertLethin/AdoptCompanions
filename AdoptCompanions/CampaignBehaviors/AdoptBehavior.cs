@@ -31,7 +31,7 @@ namespace AdoptCompanions.CampaignBehaviors
             starter.AddPlayerLine("adoption_discussion_AC", "lord_talk_speak_diplomacy_2", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition_Lord), null, 70, null, null);
             //companion start (in About your position in the clan)
             starter.AddPlayerLine("adoption_discussion_AC", "companion_role", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition_companion), null, 105, null, null);
-            //notable start (in About your position in the clan)
+            //notable start (in I have a quick question)
             starter.AddPlayerLine("adoption_discussion_AC", "lord_talk_ask_something_2", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition_notable), null, 120, null, null);
             
             starter.AddDialogLine("character_adoption_start_res_p_AC", "adoption_companion_start_AC", "adoption_companion_choice_AC", "{=STR_CONV_00002}I have always thought of you as my chosen family and would love to be a part of your actaul family. Were you planning on adopting me as your child or sibling? [rf:happy][rb:very_positive]", new ConversationSentence.OnConditionDelegate(conversation_relationship_pass_condition), null, 100, null);
