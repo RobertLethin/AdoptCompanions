@@ -28,17 +28,18 @@ namespace AdoptCompanions.common
             {
                 // Custom purple!
                 Color color = new(0.6f, 0.2f, 1f);
-                InformationManager.DisplayMessage(new InformationMessage(message, color));
+                InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + message, color));
             } else
             {
                 // Custom purple!
                 Color color = new(0.6f, 0.2f, 1f);
-                InformationManager.DisplayMessage(new InformationMessage(message, color));
+                InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + message, color));
             }
         }
 
-        public static void Error(Exception exception)
+        public static void Error(String message, Exception exception)
         {
+            InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + message, Colors.Red));
             InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + exception.Message, Colors.Red));
         }
 
@@ -71,6 +72,10 @@ namespace AdoptCompanions.common
         {
             int reason = 0;
 
+            if(hero.IsSpecial)//quest people?
+            {
+                return AdoptConstants.FAIL_OTHER;
+            }
             //Cant adopt self
             if (hero == Hero.MainHero)
             {

@@ -84,7 +84,7 @@ namespace AdoptCompanions.Actions
                 hero.CompanionOf = Hero.MainHero.Clan;
                 hero.IsNoble = false; //not sure if I should do this or not
 
-                ACHelper.Print("Adopt Companions: Successfully made " + hero.Name + " into a companion.");
+                ACHelper.Print("{=STR_LOG_00009_001}Successfully made " + hero.Name + "{=STR_LOG_00009_002} into a companion.");
             }
             else if (hero.Clan == Hero.MainHero.Clan && !convertToCompanion)
             {
@@ -99,7 +99,7 @@ namespace AdoptCompanions.Actions
                 //TODO: convert all to no factionless clan
             }
 
-            ACHelper.Print("Adopt Companions: Successfully kicked " + hero.Name + " out of your family.");
+            ACHelper.Print("{=STR_LOG_00010_001}Successfully kicked " + hero.Name + "{=STR_LOG_00010_002} out of your family.");
 
         }
 

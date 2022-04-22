@@ -29,46 +29,46 @@ namespace AdoptCompanions.Settings
 
         //Settings for Type of people that can be adopted
         //based on type
-        [SettingPropertyBoolAttribute("Can adpot from different kingdoms/factions?", HintText = "default is disabled.", Order = 0, RequireRestart = false)]
-        [SettingPropertyGroup("Diplomacy Conditions for Adpotion", GroupOrder = 1)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00018}Can adpot from different kingdoms/factions?", HintText = "{=STR_SET_00016}default is disabled.", Order = 0, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00001}Diplomacy Conditions for Adpotion", GroupOrder = 1)]
         public bool canAdoptDifferentFactions { get; set; } = false;
         //based on conditions
-        [SettingPropertyBoolAttribute("Can adopt from factions you are at war with?", HintText = "default is disabled.", Order = 1, RequireRestart = false)]
-        [SettingPropertyGroup("Diplomacy Conditions for Adpotion", GroupOrder = 1)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00019}Can adopt from factions you are at war with?", HintText = "{=STR_SET_00016}default is disabled.", Order = 1, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00001}Diplomacy Conditions for Adpotion", GroupOrder = 1)]
         public bool canAdoptAtWar { get; set; } = false;
 
-        [SettingPropertyBoolAttribute("Can adopt prisoners?", HintText = "This only applies to lords/people you can speak to not normal troops. default is enabled.", Order = 2, RequireRestart = false)]
-        [SettingPropertyGroup("Diplomacy Conditions for Adpotion", GroupOrder = 1)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00020}Can adopt prisoners?", HintText = "{=STR_SET_00021}This only applies to lords/people you can speak to not normal troops. default is enabled.", Order = 2, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00001}Diplomacy Conditions for Adpotion", GroupOrder = 1)]
         public bool canAdoptPrisoners { get; set; } = true;
 
 
 
         //Settings for Type of people that can be adopted
         //based on type
-        [SettingPropertyBoolAttribute("Can adopt Companions?", HintText = "default is enabled.", Order = 3, RequireRestart = false)]
-        [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00022}Can adopt Companions?", HintText = "{=STR_SET_00017}default is enabled.", Order = 3, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00002}Type of people that can be adopted", GroupOrder = 2)]
         public bool canAdoptCompanions { get; set; } = true;
 
-        [SettingPropertyBoolAttribute("Can adopt Faction leaders (Kings/Queens)?", HintText = "Note: The leader will join your clan and a new leader will be assigned to their old faction. default is disabled.", Order = 4, RequireRestart = false)]
-        [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00023}Can adopt Faction leaders (Kings/Queens)?", HintText = "{=STR_SET_00024}Note: The leader will join your clan and a new leader will be assigned to their old faction. default is disabled.", Order = 4, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00002}Type of people that can be adopted", GroupOrder = 2)]
         public bool canAdoptKings { get; set; } = false;
 
-        [SettingPropertyBoolAttribute("Can adopt Lords?", HintText = "default is disabled. ", Order = 5, RequireRestart = false)]
-        [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00025}Can adopt Lords?", HintText = "{=STR_SET_00016}default is disabled. ", Order = 5, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00002}Type of people that can be adopted", GroupOrder = 2)]
         public bool canAdoptLords { get; set; } = false;
 
-        [SettingPropertyBoolAttribute("Can adopt Notables (merchants and such)?", HintText = "default is disabled.", Order = 6, RequireRestart = false)]
-        [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00026}Can adopt Notables (merchants and such)?", HintText = "{=STR_SET_00016}default is disabled.", Order = 6, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00002}Type of people that can be adopted", GroupOrder = 2)]
         public bool canAdoptNotables { get; set; } = false;
 
-        [SettingPropertyBoolAttribute("Can adopt Children?", HintText = "default is disabled.", Order = 7, RequireRestart = false)]
-        [SettingPropertyGroup("Type of people that can be adopted", GroupOrder = 2)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00027}Can adopt Children?", HintText = "{=STR_SET_00016}default is disabled.", Order = 7, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00002}Type of people that can be adopted", GroupOrder = 2)]
         public bool canAdoptChildren { get; set; } = false;
 
         //Settings for if it pass/fails
         //minimum relationship before able to adopt
-        [SettingPropertyIntegerAttribute("Minimum relationship required", -100, 100, HintText = "This is the minimum relationship required for someone to be adpotable. default is 75", Order = 10, RequireRestart = false)]
-        [SettingPropertyGroup("Standard Adoption requirements", GroupOrder = 3)]
+        [SettingPropertyIntegerAttribute("{=STR_SET_00028}Minimum relationship required", -100, 100, HintText = "{=STR_SET_00029}This is the minimum relationship required for someone to be adpotable. default is 75", Order = 10, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00003}Standard Adoption requirements", GroupOrder = 3)]
         public int RelationshipMinimum { get; set; } = 60;
 
         //RNG chance for if they agree after meeting requirements 
@@ -91,32 +91,32 @@ namespace AdoptCompanions.Settings
 
         //Setting for what happens if pass
         //Relationship gain on adoption
-        [SettingPropertyIntegerAttribute("Relationship change on sucessful adoption", -100, 100, HintText = "The relation gain/loss you recieve when you adopt someone. default is +30", Order = 20, RequireRestart = false)]
-        [SettingPropertyGroup("Effect of adoption", GroupOrder = 4)]
+        [SettingPropertyIntegerAttribute("{=STR_SET_00030}Relationship change on sucessful adoption", -100, 100, HintText = "{=STR_SET_00031}The relation gain/loss you recieve when you adopt someone. default is +30", Order = 20, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00004}Effects of adoption", GroupOrder = 4)]
         public int RelationshipGainPass { get; set; } = 30;
 
 
         //Setting for what happens if fails
         //Relationship gain on fail
-        [SettingPropertyIntegerAttribute("Relationship change on failed adoption", -100, 100, HintText = "The relation gain/loss you recieve when you try to adopt someone but fail. default is -10", Order = 21, RequireRestart = false)]
-        [SettingPropertyGroup("Effect of adoption", GroupOrder = 4)]
+        [SettingPropertyIntegerAttribute("{=STR_SET_00032}Relationship change on failed adoption", -100, 100, HintText = "{=STR_SET_00033}The relation gain/loss you recieve when you try to adopt someone but fail. default is -10", Order = 21, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00004}Effects of adoption", GroupOrder = 4)]
         public int RelationshipGainFail { get; set; } = -10;
 
         //Unadopt settings
-        [SettingPropertyBoolAttribute("Can disown children?", HintText = "default is enabled.", Order = 31, RequireRestart = false)]
-        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00034}Can disown children?", HintText = "{=STR_SET_00017}default is enabled.", Order = 31, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00005}Remove from Family", GroupOrder = 5)]
         public bool canUnAdoptChildren { get; set; } = true;
 
-        [SettingPropertyBoolAttribute("Can disown siblings?", HintText = "default is enabled.", Order = 32, RequireRestart = false)]
-        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00035}Can disown siblings?", HintText = "{=STR_SET_00017}default is enabled.", Order = 32, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00005}Remove from Family", GroupOrder = 5)]
         public bool canUnAdoptSiblings { get; set; } = true;
 
-        [SettingPropertyBoolAttribute("Can divorce spouse?", HintText = "default is disabled.", Order = 33, RequireRestart = false)]
-        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00036}Can divorce spouse?", HintText = "{=STR_SET_00016}default is disabled.", Order = 33, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00005}Remove from Family", GroupOrder = 5)]
         public bool canUnAdoptSpouse { get; set; } = false;
 
-        [SettingPropertyBoolAttribute("Can disown parents?", HintText = "default is disabled.", Order = 34, RequireRestart = false)]
-        [SettingPropertyGroup("Remove from Family", GroupOrder = 5)]
+        [SettingPropertyBoolAttribute("{=STR_SET_00037}Can disown parents?", HintText = "{=STR_SET_00016}default is disabled.", Order = 34, RequireRestart = false)]
+        [SettingPropertyGroup("{=STR_SET_00005}Remove from Family", GroupOrder = 5)]
         public bool canUnAdoptParents { get; set; } = false;
 
     }

@@ -25,13 +25,13 @@ namespace AdoptCompanions.CampaignBehaviors
         protected void AddDialogs(CampaignGameStarter starter)
         {
             //Companions
-            starter.AddPlayerLine("rename_discussion_AC", "hero_main_options", "rename_family_response_AC", "I think you should be known be a new name.", new ConversationSentence.OnConditionDelegate(conversation_rename_on_condition), null, 70, null, null);
-            starter.AddDialogLine("character_rename_res_AC", "rename_family_response_AC", "rename_family_player_res_AC", "I was just thinking of changing my name... What name do you think I should chose?", null, new ConversationSentence.OnConsequenceDelegate(conversation_rename_on_consequence), 100, null);
+            starter.AddPlayerLine("rename_discussion_AC", "hero_main_options", "rename_family_response_AC", "{=STR_CONV_00009}I think you should be known be a new name.", new ConversationSentence.OnConditionDelegate(conversation_rename_on_condition), null, 70, null, null);
+            starter.AddDialogLine("character_rename_res_AC", "rename_family_response_AC", "rename_family_player_res_AC", "{=STR_CONV_00010}I was just thinking of changing my name... What name do you think I should chose?", null, new ConversationSentence.OnConsequenceDelegate(conversation_rename_on_consequence), 100, null);
 
             //starter.AddPlayerLine("rename_discussion_AC", "rename_family_player_res_AC", "rename_family_confirm_AC", "You should name yourself...", null, null, 100, null, null);
             //starter.AddDialogLine("character_change_name_confirm_AC", "rename_family_confirm_AC", "hero_main_options", "I love that name, from now on I shall use it!", null, null, 100, null);
             //starter.AddPlayerLine("rename_discussion_AC", "rename_family_player_res_AC", "rename_family_confirm_AC", "You should name yourself...", null, null, 100, null, null);
-            starter.AddDialogLine("character_change_name_confirm_AC", "rename_family_player_res_AC", "hero_main_options", "I love that name, from now on I shall use it!", null, null, 100, null);
+            starter.AddDialogLine("character_change_name_confirm_AC", "rename_family_player_res_AC", "hero_main_options", "{=STR_CONV_00011}I love that name, from now on I shall use it!", null, null, 100, null);
 
             //starter.AddPlayerLine("rename_discussion_confirm_AC", "rename_family_player_confirm_AC", "hero_main_options", "I'm glad you like it. Everyone shall call you {CONVERSATION_CHARACTER.NAME} now!", null, null, 100, null, null);
 
@@ -63,7 +63,7 @@ namespace AdoptCompanions.CampaignBehaviors
 
             Hero hero = Hero.OneToOneConversationHero;
             InformationManager.ShowTextInquiry(new TextInquiryData(
-                "Enter New Name: ", 
+                "{=STR_UI_00001}Enter New Name: ", 
                 "", 
                 true, 
                 false, 
@@ -82,7 +82,7 @@ namespace AdoptCompanions.CampaignBehaviors
             hero.SetName(new TextObject(s, null), new TextObject(s, null));
 
             AccessTools.Property(typeof(TextObject), "Value");
-            ACHelper.Print("Adpot Companion: Changed family member's name to " + s);
+            ACHelper.Print("{=STR_LOG_00004}Adpot Companion: Changed family member's name to " + s);
         }
 
         //namechanceconsequence() => InformationManager.ShowTextInquiry(new TextInquiryData("Create a new name: ", string.Empty, true, false, ((object)GameTexts.FindText("str_done", (string)null)).ToString(), (string)null, new Action<string>(this.change_hero_name), (Action)null, false, (Func<string, Tuple<bool, string>>)null, "", ""), false);

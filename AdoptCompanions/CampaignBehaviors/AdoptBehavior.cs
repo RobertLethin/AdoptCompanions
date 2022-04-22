@@ -27,7 +27,13 @@ namespace AdoptCompanions.CampaignBehaviors
         protected void AddDialogs(CampaignGameStarter starter)
         {
             //Adopting
-            starter.AddPlayerLine("adoption_discussion_AC", "hero_main_options", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition), null, 70, null, null);
+            //lord start (in I have something to discuss)
+            starter.AddPlayerLine("adoption_discussion_AC", "lord_talk_speak_diplomacy_2", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition_Lord), null, 70, null, null);
+            //companion start (in About your position in the clan)
+            starter.AddPlayerLine("adoption_discussion_AC", "companion_role", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition_companion), null, 105, null, null);
+            //notable start (in About your position in the clan)
+            starter.AddPlayerLine("adoption_discussion_AC", "lord_talk_ask_something_2", "adoption_companion_start_AC", "{=STR_CONV_00001}I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition_notable), null, 120, null, null);
+            
             starter.AddDialogLine("character_adoption_start_res_p_AC", "adoption_companion_start_AC", "adoption_companion_choice_AC", "{=STR_CONV_00002}I have always thought of you as my chosen family and would love to be a part of your actaul family. Were you planning on adopting me as your child or sibling? [rf:happy][rb:very_positive]", new ConversationSentence.OnConditionDelegate(conversation_relationship_pass_condition), null, 100, null);
             starter.AddDialogLine("character_adoption_start_res_f_AC", "adoption_companion_start_AC", "hero_main_options", "{=STR_CONV_00003}I'm sorry, but I don't like you enough to agree to that. [rf:angry][rb:negative]", new ConversationSentence.OnConditionDelegate(conversation_relationship_fail_condition_1), null, 100, null);
 
@@ -43,6 +49,29 @@ namespace AdoptCompanions.CampaignBehaviors
             //starter.AddPlayerLine("adoption_discussion_AC", "hero_main_options", "adoption_companion_start_AC", "I feel a strong bond with you and I would be honored to have you join my family.", new ConversationSentence.OnConditionDelegate(conversation_adopt_on_condition), null, 70, null, null);
 
         }
+
+
+        private bool conversation_adopt_on_condition_Lord()
+        {
+            Hero hero = Hero.OneToOneConversationHero;
+
+            return (conversation_adopt_on_condition() && hero.IsNoble);
+        }
+
+        private bool conversation_adopt_on_condition_companion()
+        {
+            Hero hero = Hero.OneToOneConversationHero;
+
+            return (conversation_adopt_on_condition() && hero.IsPlayerCompanion);
+        }
+
+        private bool conversation_adopt_on_condition_notable()
+        {
+            Hero hero = Hero.OneToOneConversationHero;
+
+            return (conversation_adopt_on_condition() && hero.IsNotable);
+        }
+
 
 
         private bool conversation_adopt_on_condition()

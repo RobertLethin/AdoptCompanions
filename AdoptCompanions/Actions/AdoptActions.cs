@@ -51,8 +51,6 @@ namespace AdoptCompanions.Actions
             if (hero.Occupation != Occupation.Lord)
             {
                 hero.SetNewOccupation(Occupation.Lord);
-                //AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                //ACHelper.Print("Occupation To Lord");
             }
 
             //remove from being prisoner
@@ -81,8 +79,6 @@ namespace AdoptCompanions.Actions
             //Increase relationship by 30 (old version hard set it to 100)
             hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
 
-            //AccessTools.Field(typeof(Agent), "_name").SetValue(agent, hero.Name);
-
             if (hero.IsPrisoner)
             {
                 releaseAdoptedPrisoner(hero);
@@ -109,7 +105,6 @@ namespace AdoptCompanions.Actions
             {
                 hero.SetNewOccupation(Occupation.Lord);
                 //AccessTools.Property(typeof(Hero), "Occupation").SetValue(hero, Occupation.Lord);
-                //ACHelper.Print("Occupation To Lord");
             }
 
             if (hero.IsMercenary)
@@ -195,10 +190,9 @@ namespace AdoptCompanions.Actions
 
             changeAdoptedHeroParty(hero);
 
-            //AccessTools.Field(typeof(Agent), "_name").SetValue(agent, hero.Name);
             OnHeroAdopted(Hero.MainHero, hero, false);
 
-            ACHelper.Print("Successfully adopted " + hero.Name + " as your new child.");
+            ACHelper.Print("{=STR_LOG_00005_001}Successfully adopted " + hero.Name + "{=STR_LOG_00005_002} as your new child.");
 
             return 1;
         }
@@ -241,7 +235,7 @@ namespace AdoptCompanions.Actions
             }
             catch (Exception e)
             {
-                ACHelper.Print("ADOPT COMPANIONS: EXCEPTION trying to change adopted hero's party clan!");
+                ACHelper.Error("{=STR_LOG_00006}EXCEPTION trying to change adopted hero's party clan!", e);
             }
         }
 
@@ -264,7 +258,7 @@ namespace AdoptCompanions.Actions
             }
             catch (Exception e)
             {
-                ACHelper.Print("ADOPT COMPANIONS: EXCEPTION trying to remove adopted hero from prison!");
+                ACHelper.Error("{=STR_LOG_00007}EXCEPTION trying to remove adopted hero from prison!", e);
             }
         }
 
@@ -281,7 +275,7 @@ namespace AdoptCompanions.Actions
             }
             catch (Exception e)
             {
-                ACHelper.Print("ADOPT COMPANIONS: EXCEPTION trying to update faction leader clan!");
+                ACHelper.Error("{=STR_LOG_00008}EXCEPTION trying to update faction leader clan!", e);
             }
 
         }
@@ -306,7 +300,7 @@ namespace AdoptCompanions.Actions
                     child.HasMet = true;
                     child.CompanionOf = null;
                     child.SetPersonalRelation(Hero.MainHero, (child.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                    ACHelper.Print("" + child.Name + ", child of " + hero.Name + ", added to player clan because child has not come of age!");
+                    ACHelper.Print("" + child.Name + "{=STR_LOG_00002_001}, child of " + hero.Name + "{=STR_LOG_00002_002}, added to player clan because child has not come of age!");
                 }
             }
 
@@ -329,7 +323,7 @@ namespace AdoptCompanions.Actions
                 spouse.HasMet = true;
                 spouse.CompanionOf = null;
                 spouse.SetPersonalRelation(Hero.MainHero, (spouse.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                ACHelper.Print("" + spouse.Name + ", spouse of " + hero.Name + ", added to player clan!");
+                ACHelper.Print("" + spouse.Name + "{=STR_LOG_00003_001}, spouse of " + hero.Name + "{=STR_LOG_00003_002}, added to player clan!");
             }
             else
             {
@@ -352,7 +346,7 @@ namespace AdoptCompanions.Actions
                             temp.HasMet = true;
                             temp.CompanionOf = null;
                             temp.SetPersonalRelation(Hero.MainHero, (temp.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
-                            ACHelper.Print("" + temp.Name + ", spouse of " + hero.Name + ", added to player clan!");
+                            ACHelper.Print("" + temp.Name + "{=STR_LOG_00003_001}, spouse of " + hero.Name + "{=STR_LOG_00003_002}, added to player clan!");
                         }
                     }
                 }
@@ -362,7 +356,7 @@ namespace AdoptCompanions.Actions
         //notify player of adoption
         private static void OnHeroAdopted(Hero adopter, Hero adoptedHero, Boolean isSibling)
         {
-            TextObject textObject = new("{=adopted}{ADOPTER.LINK} adopted {ADOPTED_HERO.LINK}.", null);
+            TextObject textObject = new("{=STR_NOT_00001}{ADOPTER.LINK} adopted {ADOPTED_HERO.LINK}.", null);
             StringHelpers.SetCharacterProperties("ADOPTER", adopter.CharacterObject, textObject);
             StringHelpers.SetCharacterProperties("ADOPTED_HERO", adoptedHero.CharacterObject, textObject);
             if (isSibling)
