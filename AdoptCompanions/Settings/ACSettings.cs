@@ -103,6 +103,7 @@ namespace AdoptCompanions.Settings
         public int RelationshipGainFail { get; set; } = -10;
 
         //Unadopt settings
+        /*
         [SettingPropertyBoolAttribute("{=STR_SET_00034}Can disown children?", HintText = "{=STR_SET_00017}default is enabled.", Order = 31, RequireRestart = false)]
         [SettingPropertyGroup("{=STR_SET_00005}Remove from Family", GroupOrder = 5)]
         public bool canUnAdoptChildren { get; set; } = true;
@@ -118,6 +119,7 @@ namespace AdoptCompanions.Settings
         [SettingPropertyBoolAttribute("{=STR_SET_00037}Can disown parents?", HintText = "{=STR_SET_00016}default is disabled.", Order = 34, RequireRestart = false)]
         [SettingPropertyGroup("{=STR_SET_00005}Remove from Family", GroupOrder = 5)]
         public bool canUnAdoptParents { get; set; } = false;
+        */
 
     }
 }

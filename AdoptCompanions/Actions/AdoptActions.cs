@@ -181,7 +181,7 @@ namespace AdoptCompanions.Actions
                 hero.Father = Hero.MainHero;
             }
 
-            Hero.MainHero.Children.Add(hero);
+            //Hero.MainHero.Children.Add(hero);
 
             hero.SetPersonalRelation(Hero.MainHero, (hero.GetRelation(Hero.MainHero) + GlobalSettings<ACSettings>.Instance.RelationshipGainPass));
 

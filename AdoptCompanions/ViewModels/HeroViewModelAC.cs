@@ -28,7 +28,7 @@ namespace AdoptCompanions.ViewModels
             this.hero = hero;
             this.btnTextChild = ((object)new TextObject("{=Adopt_Companion_Adopt}Adopt as Child!", null)).ToString();
             this.btnTextSibling = ((object)new TextObject("{=Adopt_Companion_Adopt}Adopt as Sibling!", null)).ToString();
-            this.btnTextDisown = ((object)new TextObject("{=Adopt_Companion_Disown} Disown from family!", null)).ToString();
+            //this.btnTextDisown = ((object)new TextObject("{=Adopt_Companion_Disown} Disown from family!", null)).ToString();
         }
 
         public void AdoptHero()
@@ -37,7 +37,7 @@ namespace AdoptCompanions.ViewModels
 
             AdoptActions.AdoptAction(this.hero, adoptionType);
             ((ViewModel)this).OnPropertyChanged("IsAlreadyFamily");
-            ((ViewModel)this).OnPropertyChanged("CanUnAdopt");
+            //((ViewModel)this).OnPropertyChanged("CanUnAdopt");
             ((ViewModel)this).OnPropertyChanged("CanAdopt");
         }
 
@@ -47,7 +47,7 @@ namespace AdoptCompanions.ViewModels
 
             AdoptActions.AdoptAction(this.hero, adoptionType);
             ((ViewModel)this).OnPropertyChanged("IsAlreadyFamily");
-            ((ViewModel)this).OnPropertyChanged("CanUnAdopt");
+            //((ViewModel)this).OnPropertyChanged("CanUnAdopt");
             ((ViewModel)this).OnPropertyChanged("CanAdopt");
         }
 
@@ -57,17 +57,17 @@ namespace AdoptCompanions.ViewModels
 
             AdoptActions.AdoptAction(this.hero, adoptionType);
             ((ViewModel)this).OnPropertyChanged("IsAlreadyFamily");
-            ((ViewModel)this).OnPropertyChanged("CanUnAdopt");
+            //((ViewModel)this).OnPropertyChanged("CanUnAdopt");
             ((ViewModel)this).OnPropertyChanged("CanAdopt");
         }
-
+        /*
         public void UnAdoptHero()
         {
             UnAdoptActions.UnAdoptAction(this.hero);
             ((ViewModel)this).OnPropertyChanged("IsAlreadyFamily");
-            ((ViewModel)this).OnPropertyChanged("CanUnAdopt");
+            //((ViewModel)this).OnPropertyChanged("CanUnAdopt");
             ((ViewModel)this).OnPropertyChanged("CanAdopt");
-        }
+        }*/
 
 
         [DataSourceProperty]
@@ -76,14 +76,14 @@ namespace AdoptCompanions.ViewModels
         [DataSourceProperty]
         public string AdoptSiblingText => this.btnTextSibling;
 
-        [DataSourceProperty]
-        public string UnAdoptText => this.btnTextDisown;
+        //[DataSourceProperty]
+        //public string UnAdoptText => this.btnTextDisown;
 
         [DataSourceProperty]
         public bool CanAdopt => (ACHelper.canAdopt(this.hero) > 0) && (ACHelper.checkRelationship(this.hero) == AdoptConstants.PASS_RELATIONSHIP) ? true: false;
 
-        [DataSourceProperty]
-        public bool CanUnAdopt => UnAdoptActions.CanUnAdopt(this.hero);
+        //[DataSourceProperty]
+        //public bool CanUnAdopt => UnAdoptActions.CanUnAdopt(this.hero);
 
         [DataSourceProperty]
         public bool IsAlreadyFamily => ACHelper.isFamily(Hero.MainHero, this.hero) > 0 ? false : true;

@@ -18,6 +18,7 @@ using TaleWorlds.Library;
 namespace AdoptCompanions.Patches
 {
     //[HarmonyPatch(typeof(ClanMembersVM), "Refresh")]
+    /*
     internal class ClanLordItemVMPatch
     {
         public static bool Prefix(ClanMembersVM __instance)
@@ -35,4 +36,5 @@ namespace AdoptCompanions.Patches
             return true;
         }
     }
+    */
 }

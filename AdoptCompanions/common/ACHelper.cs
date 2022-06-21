@@ -23,6 +23,7 @@ namespace AdoptCompanions.common
     {
         public static void Print(string message)
         {
+            /*
             if (MCM.Abstractions.Settings.Base.Global.GlobalSettings<ACSettings>.Instance.Debug)
             {
                 // Custom purple!
@@ -34,10 +35,16 @@ namespace AdoptCompanions.common
                 Color color = new(0.6f, 0.2f, 1f);
                 InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + message, color));
             }
+            */
+            // Custom purple!
+            Color color = new(0.6f, 0.2f, 1f);
+            TextObject msgTextObject = new TextObject(message);
+            InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + msgTextObject, color));
         }
 
         public static void Error(String message, Exception exception)
         {
+            TextObject msgTextObject = new TextObject(message);
             InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + message, Colors.Red));
             InformationManager.DisplayMessage(new InformationMessage("Adopt Companions: " + exception.Message, Colors.Red));
         }
