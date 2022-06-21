@@ -17,6 +17,7 @@ using Helpers;
 using AdoptCompanions.Settings;
 using MCM.Abstractions.Settings.Base.Global;
 using AdoptCompanions.common;
+using TaleWorlds.CampaignSystem.Conversation;
 
 namespace AdoptCompanions.CampaignBehaviors
 {

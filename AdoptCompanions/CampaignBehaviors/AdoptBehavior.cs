@@ -19,6 +19,7 @@ using MCM.Abstractions.Settings.Base.Global;
 using AdoptCompanions.common;
 using AdoptCompanions.ViewModels;
 using AdoptCompanions.Actions;
+using TaleWorlds.CampaignSystem.Conversation;
 
 namespace AdoptCompanions.CampaignBehaviors
 {

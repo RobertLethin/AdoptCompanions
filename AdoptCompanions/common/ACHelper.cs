@@ -21,7 +21,6 @@ namespace AdoptCompanions.common
 {
     internal static class ACHelper
     {
-        //This Class uses code from RoGreat and Marry Anyone mod
         public static void Print(string message)
         {
             if (MCM.Abstractions.Settings.Base.Global.GlobalSettings<ACSettings>.Instance.Debug)

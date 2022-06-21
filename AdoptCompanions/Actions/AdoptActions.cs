@@ -15,6 +15,8 @@ using AdoptCompanions.ViewModels;
 using TaleWorlds.Localization;
 using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.CampaignSystem.Party.PartyComponents;
+using TaleWorlds.CampaignSystem.Party;
 
 namespace AdoptCompanions.Actions
 {
